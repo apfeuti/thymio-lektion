@@ -1,0 +1,20 @@
+@startuml
+[*] --> In_Garage
+In_Garage : 0
+
+Maehen : 1
+In_Garage ---> Maehen : Pfeiltaste "vorwaerts"\ngedrueckt
+
+Zurueck_fahren : 2
+Maehen ---> Zurueck_fahren : Rand erkannt
+
+Drehen : 3
+Zurueck_fahren --> Drehen : Timer 2 sec
+
+Drehen --> Maehen : Timer 2 sec
+
+Maehen --> In_Garage_fahren : Schleife erkannt\nund Akkustand niedrig
+
+In_Garage_fahren --> In_Garage : Markierungsgegenstand in\nGarage erkannt
+In_Garage_fahren : 4
+@enduml

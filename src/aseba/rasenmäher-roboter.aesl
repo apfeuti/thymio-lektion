@@ -1,56 +1,19 @@
-# Thymio programmieren
-Hinweis: Schaue dir diese Seite im Internet an. Dort kannst du auf die Links für die Dokumentation klicken,
-und die Lösungsprogramme herunterladen:
+<!DOCTYPE aesl-source>
+<network>
 
-https://github.com/apfeuti/thymio-lektion
 
-## Aufgabenstellung
-Wir wollen einen Rasenmäher-Roboter simulieren. Das braune Klebeband begrenzt die Rasenfläche und die schwarze
-Klebeband-Schleife zeigt dem Roboter den Weg zurück in die Garage. (Bei richtigen Rasenrobotern wären die Begrenzungen
-Stromkabel, welche unter dem Rasen verlegt sind, sogenannte Induktionsschlaufen)
-- Wir starten den Roboter mit einer Berührung auf den Vorwärtspfeil
-- Der Roboter fährt (mäht den Rasen) bis er die braune Begrenzung erkennt
-- Dann fährt er für 2 Sekunden rückwärts
-- Er dreht während 2 Sekunden
-- Jetzt fährt (mäht) er weiter
-- Nach einer Minute soll ein niedriger Akkustand simuliert werden
-- Wenn der Roboter jetzt die schwarze Schleife erkennt, soll er ihr zurück in die Garage folgen
-- Wenn er den Markierungsgegenstand in der Garage erkennt, soll er stoppen
+<!--list of global events-->
+<constant name="DREHEN" value="3"/>
+<constant name="FAHRE_IN_GARAGE" value="4"/>
+<constant name="FALSE" value="0"/>
+<constant name="IN_GARAGE" value="0"/>
+<constant name="MAEHEN" value="1"/>
+<constant name="TRUE" value="1"/>
+<constant name="ZURUECK_FAHREN" value="2"/>
 
-![Uebungsanlage Rasenmäher-Roboter](img/Uebungsanlage-Rasenmäher-Roboter.png)
 
-## Lösung
-Den Thymio programmiert man ereignis-orientiert, d.h. wir teilen dem Thymio mit, was er bei bestimmten Ereignissen machen soll.
-Für unsere Lösung sind folgende Ereignisse relevant:
-- Bodensensor erkennt braune Begrenzung
-- Bodensensoren erkennen schwarze Schlaufe
-- Ein gewisse Zeit ist abgelaufen (1 Sekunde für rückwärtsfahren und drehen, eine Minute für den tiefen Akkustand)
-- Vordere Sensoren erkennen Markierungsgegenstand (gelber Notizblock) in Garage
-
-Wir überlegen uns, in welchen Zuständen sich der Roboter befindet, und welche Ereignisse den Roboter von einem Zustand
-in den anderen überführen. Das ergibt folgendes Zustandsdiagramm:
-
-![Rasenmäher Zustandsdiagramm](http://www.plantuml.com/plantuml/proxy?cache=no&src=https://raw.githubusercontent.com/apfeuti/thymio-lektion/main/uml/Rasenmaeher-Roboter-Zustandsdiagramm.iuml)
-
-### Lösung mit Aseba
-#### Wichtige Dokumentation zu Aseba
-- [Aseba Programmiersprache](http://aseba.wikidot.com/de:asebalanguage)
-- [Sensoren und Aktoren API](http://wiki.thymio.org/de:thymioapi)
-
-#### Programm
-Die Datei zum Download findest du [hier](src/aseba/rasenmäher-roboter.aesl)
-
-Zuerst, definiere folgende Konstanten:
-- IN_GARAGE 0
-- MAEHEN 1
-- ZURUECK_FAHREN 2
-- DREHEN 3
-- FAHRE_IN_GARAGE 4
-- FALSE 0
-- TRUE 1
-
-```
-# Zustände initialisieren
+<!--node Thymio-II Wireless-->
+<node nodeId="{35b3e3a7-c740-4667-b323-f68da87d34fa}" name="Thymio-II Wireless"><![CDATA[# Zustände initialisieren
 var zustand = IN_GARAGE
 var akkuNiedrig = FALSE
 
@@ -152,15 +115,7 @@ onevent timer0
 	
 onevent timer1
     # simuliere, dass Akkuladestand niedrig ist - Es ist Zeit in die Garage zu gehen
-	akkuNiedrig = TRUE
-```
+	akkuNiedrig = TRUE]]></node>
 
-### Lösung mit Scratch
-[Dokumentation](https://www.thymio.org/de/programmieren/scratch/)
 
-Die Datei zum Download findest du [hier](src/scratch/rasenmaeher-roboter.sb3)
-
-Bemerkung: Die Zustände "Zurück fahren" und "Drehen" braucht es in Scratch nicht, weil man in Scratch
-bei der Fahr- und Drehfunktion direkt die Zeitdauer angeben kann.
-
-![Lösung Rasenmäher-Roboter in Scratch](img/rasenmäher-roboter-scratch.png)
+</network>
