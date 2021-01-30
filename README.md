@@ -164,3 +164,11 @@ Bemerkung: Die Zustände "Zurück fahren" und "Drehen" braucht es in Scratch nic
 bei der Fahr- und Drehfunktion direkt die Zeitdauer angeben kann.
 
 ![Lösung Rasenmäher-Roboter in Scratch](img/rasenmäher-roboter-scratch.png)
+
+## Aufgabe
+Schreibe ein Programm, so dass Thymio den Wänden im Uhrzeigersinn folgt. Die Wände sollten nicht schwarz sein.
+
+### Lösung mit Scratch
+Die Datei zum Download findest du [hier](src/scratch/waende-folgen.sb3)
+
+![Lösung Wände folgen in Scratch](img/wände-folgen-scratch.png)
