@@ -17,7 +17,7 @@ Stromkabel, welche unter dem Rasen verlegt sind, sogenannte Induktionsschlaufen)
 - Wenn der Roboter jetzt die schwarze Schleife erkennt, soll er ihr zurück in die Garage folgen
 - Wenn er den Markierungsgegenstand in der Garage erkennt, soll er stoppen
 
-![Uebungsanlage Rasenmäher-Roboter](img/Uebungsanlage-Rasenmäher-Roboter.png)
+![Uebungsanlage Rasenmäher-Roboter](img/uebungsanlage-Rasenmäher-Roboter.png)
 
 ## Lösung
 Den Thymio programmiert man ereignis-orientiert, d.h. wir teilen dem Thymio mit, was er bei bestimmten Ereignissen machen soll.
@@ -171,4 +171,25 @@ Schreibe ein Programm, so dass Thymio den Wänden im Uhrzeigersinn folgt. Die W�
 ### Lösung mit Scratch
 Die Datei zum Download findest du [hier](src/scratch/waende-folgen.sb3)
 
+Bemerkung: In der Lösung dient die rechte Spalte dazu, dass die Spur des Thymios auf dem Scratch-Bildschirm
+aufgezeichnet wird. So kannst du deine Umgebung "kartografieren". Mit ein paar mathematischen Tricks wird die Position
+des Thymio-Koordinatensystems in das Scratch-Koordinatensystem umgerechnet. Das ist nicht ganz einfach, brauchst du
+auch nicht zu verstehen, und du kannst es sogar ganz wegglassen - der Thymio fährt trotzdem den Wänden entlang.
+
 ![Lösung Wände folgen in Scratch](img/wände-folgen-scratch.png)
+
+## Aufgabe
+Schreibe ein Programm, mit welchem du den Thymio mit den Pfeiltasten der Computer-Tastatur steuern kannst.
+- Pfeil nach oben: vorwärts
+- Pfeil nach unten: rückwärts
+- Pfeil nach rechts: rechts drehen
+- Pfeil nach links: links drehen
+- s (für schneller: Geschwindigkeit vergrössern
+- l (für langsamer): Geschwindigkeit verringern
+
+Der Thymio soll die entsprechende Aktion ausführen, so lange die Taste gedrückt bleibt.
+
+### Lösung mit Scratch
+Die Datei zum Download findest du [hier](src/scratch/pfeilsteuerung.sb3)
+
+![Lösung Pfeilsteuerung in Scratch](img/pfeilsteuerung.png)
