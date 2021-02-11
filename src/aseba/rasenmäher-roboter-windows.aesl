@@ -1,0 +1,121 @@
+<!DOCTYPE aesl-source>
+<network>
+
+
+<!--list of global events-->
+<constant name="DREHEN" value="3"/>
+<constant name="FAHRE_IN_GARAGE" value="4"/>
+<constant name="FALSE" value="0"/>
+<constant name="IN_GARAGE" value="0"/>
+<constant name="MAEHEN" value="1"/>
+<constant name="TRUE" value="1"/>
+<constant name="ZURUECK_FAHREN" value="2"/>
+
+
+<!--node Thymio-II Wireless-->
+<node nodeId="{35b3e3a7-c740-4667-b323-f68da87d34fa}" name="Thymio-II Wireless"><![CDATA[# Zustände initialisieren
+var zustand = IN_GARAGE
+var akkuNiedrig = FALSE
+
+
+# Vorwärtspfeil auf Thymio berührt
+onevent button.forward
+		zustand = MAEHEN
+		
+		# fahre geradeaus mit Geschwindigkeit 300
+		motor.left.target = 300
+		motor.right.target = 300
+		
+		# starte Timer ca 1 Minute (länger geht leider nicht)
+		# Trick 2 * 30000, weil keine grössere Zahl als 32767 angegeben werden kann
+		timer.period[1] = 2 * 30000
+		
+		
+# Notstop wenn Rückwärtspfeil auf Thymio berührt
+onevent button.backward
+		motor.left.target = 0
+		motor.right.target = 0
+
+# Sensoren-Ereignisse
+onevent prox
+	if prox.ground.delta[0] < 1000 and prox.ground.delta[0] > 800 and zustand != FAHRE_IN_GARAGE then
+			# Bodensensoren haben brauner Rand entdeckt
+			# Die Werte 1000 und 800 muss man je nach Klebeband durch ausprobieren herausfinden
+			zustand = ZURUECK_FAHREN
+			
+			# Fahre rückwärts mit Geschwindigkeit 100
+			motor.left.target = -100
+			motor.right.target = -100
+			
+			# starte Timer 2 Sekunden
+			timer.period[0] = 2000
+	end
+	
+	if prox.ground.delta[0] < 500 and akkuNiedrig == TRUE then
+		# Bodensensoren haben schwarze Schleife entdeckt und Akku stand ist niedrig (simuliert)
+		zustand = FAHRE_IN_GARAGE
+	end
+	
+	if  zustand == FAHRE_IN_GARAGE then
+	    if prox.ground.delta[0] < 500 and prox.ground.delta[1] < 500 then
+	    	# genau auf schwarzer Linie - fahre gerade aus
+	    	motor.left.target = 100
+	    	motor.right.target = 100
+	    end
+	    
+		if  prox.ground.delta[0] < 500 and prox.ground.delta[1] >= 500 then
+			# Nur noch der linke Bodensensor ist auf der schwarzen Schleife -> korrigiere nach links
+			# rechtes Rad schneller drehen als linkes Rad
+			motor.left.target = 10
+			motor.right.target = 100
+		end
+		
+		if  prox.ground.delta[0] >= 500 and prox.ground.delta[1] < 500 then
+			# Nur noch der rechte Bodensensor ist auf der schwarzen Schleife -> korrigiere nach rechts
+			# linkes Rad schneller drehen als rechtes Rad
+			motor.left.target = 100
+			motor.right.target = 10
+		end
+		
+		if  prox.horizontal[1] > 4000 or prox.horizontal[2] > 4000 or prox.horizontal[3] > 4000 then
+		   # Einer der mittleren drei Vordersensoren haben den Markierungsgegenstand in der Garage erkannt
+			zustand = IN_GARAGE
+			
+			# Stoppe
+			motor.left.target = 0
+			motor.right.target = 0
+			
+			# Akku ist wieder geladen :-)
+			akkuNiedrig = FALSE
+		end
+			
+	end
+	
+	
+onevent timer0
+	if  zustand == ZURUECK_FAHREN then
+	   # Zurückfahrzeit ist abgelaufen - jetzt drehen
+		zustand = DREHEN
+		
+		# Räder in entgegengesetzte Richtung drehen
+		motor.left.target = 100
+		motor.right.target = -100
+		
+		# Timer neu starten (für das Drehen) und Routine verlassen
+		timer.period[0] = 2000
+		return
+	end
+	if zustand == DREHEN then
+	# Drehzeit ist abgelaufen - jetzt wieder vorwärtsfahren und mähen
+	   zustand = MAEHEN
+	   motor.left.target = 300
+	  motor.right.target = 300
+	  return
+	end	
+	
+onevent timer1
+    # simuliere, dass Akkuladestand niedrig ist - Es ist Zeit in die Garage zu gehen
+	akkuNiedrig = TRUE]]></node>
+
+
+</network>
